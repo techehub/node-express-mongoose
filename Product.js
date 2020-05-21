@@ -3,14 +3,29 @@ var Schema = mongoose.Schema;
 
 // create a ProductSchema
 var ProductSchema = new Schema({
+
+ 
   name: {
     type: String,
     required: true
   },
-  quantity: {
+  desc: {
+    type: String,
+    required: true
+  },
+  brand: {
+    type: String,
+    required: false
+  },
+  category: {
+    type: String,
+    required: true
+  },
+  price: {
     type: Number,
     required: true
   },
+
   reviews: [{
     type: Schema.Types.ObjectId,
     ref: 'Review'

@@ -8,6 +8,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 var PORT = 3000;
 
+//below code for cross origin support
+var cors = require('cors');
+app.use(cors());
+
 app.get("/review", function(req,res) {
   db.Review.find({})
   .then(function(dbReviews) {
@@ -60,9 +64,50 @@ app.post("/products/:id", function(req, res) {
       .then(function(dbProduct) {
          res.json(dbProduct);
       })
-      .catch(function(err) {
+      .catch(function(err) { 
          res.json(err);
       });
+  });
+
+
+  app.post("/category", function(req, res) {
+    db.Category.create(req.body)
+      .then(function(dbProduct) {
+          res.json(dbProduct);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+  app.get("/category", function(req,res) {
+    db.Category.find({})
+    .then(function(dbProducts) {
+      res.json(dbProducts);
+    })
+    .catch(function(err) {
+      res.json(err);
+    })
+  });
+
+  //sevice to get details of  given product including review
+  app.get("/productlist/:cat", function(req, res) {
+
+   
+    var query = db.Product.find({ 'category': req.params.cat });
+
+// selecting the 'name' and 'age' fields
+query.select('name desc brand price');
+
+
+
+// execute the query at a later time
+query.exec(function (err, products) {
+  if (err) return err;
+  res.json(products);
+})
+
+  
   });
 
 // Start the server

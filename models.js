@@ -5,5 +5,7 @@
 // Exporting one object containing all models
 module.exports = {
     Product: require("./Product"),
-    Review: require("./Review")
+    Review: require("./Review"),
+    Category:require ("./Category")
+
   };
